@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="~{fragments/header :: common_header(~{::title}, ~{::link})}">
+    <meta charset="utf-8">
+    <title>yong's blog</title>
+    <link/>
+    <!-- 공통 -->
+    <th:block th:replace="~{fragments/header :: common_headerlink}"/>
+    <!-- 추가 -->
+</head>
+
+<body class="bg-gradient-primary">
+<div id="wrapper">
+    <div layout:fragment="content"></div>
+    <script th:replace="~{fragments/script::script}"></script>
+    <script layout:fragment="script" th:inline="javascript"></script>
+</div>
+</body>
+</html>
