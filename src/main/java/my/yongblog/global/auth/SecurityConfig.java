@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 .defaultSuccessUrl("/")
                                 .usernameParameter("email")
                                 .loginPage("/login")
+                                .loginProcessingUrl("/login-proc")
                                 .failureUrl("/login?error")
                 )
                 .logout(Customizer.withDefaults());

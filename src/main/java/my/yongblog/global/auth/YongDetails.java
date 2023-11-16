@@ -30,6 +30,12 @@ public class YongDetails implements UserDetails {
         return authorities;
     }
 
+    public Yong getUser() {
+            return user;
+        }
+    public Long getId() {
+           return user.getId();
+       }
     @Override
     public String getPassword() {
         return user.getPassword();

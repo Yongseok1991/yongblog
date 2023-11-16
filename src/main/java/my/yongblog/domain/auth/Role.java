@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.yongblog.domain.base.BaseEntity;
+import my.yongblog.domain.base.BaseTimeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Role extends BaseEntity {
+public class Role extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "role_id")

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +37,14 @@ public class YongUserServiceImpl implements YongUserService {
                 .name(dto.getName())
                 .roles(roles)
                 .nickname(dto.getNickname())
+                .isEnabled(dto.getIsEnabled())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
         Yong save = yongRepository.save(user);
         return save.getId();
+    }
+    @Override
+    public Optional<Yong> getEmail(String email) {
+        return yongRepository.findByEmail(email);
     }
 }

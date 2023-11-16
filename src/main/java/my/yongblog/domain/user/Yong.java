@@ -15,15 +15,18 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "yong", uniqueConstraints = {
+       		@UniqueConstraint( columnNames={"email"})
+})
 public class Yong extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "yong_id")
     private Long id;
     private String nickname;
+
     private String email;
     private String password;
     private String name;
@@ -32,8 +35,6 @@ public class Yong extends BaseTimeEntity {
     @OneToMany(mappedBy = "yong", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<YongRoles> yongRoles = new HashSet<>();
-
-
     @Builder(builderClassName = "yongSaveAndUpdateBuilder", builderMethodName = "yongSaveAndUpdateBuilder")
     public Yong(Long id, String nickname, String email, String password, String name, Boolean isEnabled, List<Role> roles) {
         this.id = id;
