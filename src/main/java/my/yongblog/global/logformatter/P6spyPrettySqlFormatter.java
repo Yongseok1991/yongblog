@@ -3,53 +3,58 @@ package my.yongblog.global.logformatter;
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 import org.hibernate.engine.jdbc.internal.FormatStyle;
-
-import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Stack;
-import java.util.function.Predicate;
-
-import static java.util.Arrays.stream;
-
 public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
-    private static final String NEW_LINE = System.lineSeparator();
-    private static final String P6SPY_FORMATTER = "P6spyPrettySqlFormatter";
-    private static final String PACKAGE = "io.p6spy";
+    private static final String NEW_LINE = "\n";
+    private static final String TAP = "\t";
     private static final String CREATE = "create";
     private static final String ALTER = "alter";
+    private static final String DROP = "drop";
     private static final String COMMENT = "comment";
 
     @Override
     public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared, String sql, String url) {
-        return sqlFormatToUpper(sql, category, getMessage(connectionId, elapsed, getStackBuilder()));
-    }
-
-
-    private String sqlFormatToUpper(String sql, String category, String message) {
-
-        if (Objects.isNull(sql.trim()) || sql.trim().isEmpty()) {
-            return "";
+        if (sql.trim().isEmpty()) {
+            return formatByCommand(category);
         }
-        return new StringBuilder()
-                .append(NEW_LINE)
-                .append(sqlFormatToUpper(sql, category))
-                .append(message)
-                .toString();
+        return formatBySql(sql, category) + getAdditionalMessages(elapsed);
     }
 
-    private String sqlFormatToUpper(String sql, String category) {
+    private static String formatByCommand(String category) {
+        return NEW_LINE
+                + "Execute Command : "
+                + NEW_LINE
+                + NEW_LINE
+                + TAP
+                + category
+                + NEW_LINE
+                + NEW_LINE
+                + "----------------------------------------------------------------------------------------------------";
+    }
+
+    private String formatBySql(String sql, String category) {
         if (isStatementDDL(sql, category)) {
-            return FormatStyle.DDL
+            return NEW_LINE
+                    + "Execute DDL : "
+                    + NEW_LINE
+                    + FormatStyle.DDL
                     .getFormatter()
-                    .format(sql)
-                    .toUpperCase(Locale.ROOT)
-                    .replace("+0900", "");
+                    .format(sql);
         }
-        return FormatStyle.BASIC
+        return NEW_LINE
+                + "Execute DML : "
+                + NEW_LINE
+                + FormatStyle.BASIC
                 .getFormatter()
-                .format(sql)
-                .replace("+0900", "");
+                .format(sql);
+    }
+
+    private String getAdditionalMessages(long elapsed) {
+        return NEW_LINE
+                + NEW_LINE
+                + String.format("Execution Time: %s ms", elapsed)
+                + NEW_LINE
+                + "----------------------------------------------------------------------------------------------------";
     }
 
     private boolean isStatementDDL(String sql, String category) {
@@ -61,39 +66,9 @@ public class P6spyPrettySqlFormatter implements MessageFormattingStrategy {
     }
 
     private boolean isDDL(String lowerSql) {
-        return lowerSql.startsWith(CREATE) || lowerSql.startsWith(ALTER) || lowerSql.startsWith(COMMENT);
-    }
-
-    private String getMessage(int connectionId, long elapsed, StringBuilder callStackBuilder) {
-        return new StringBuilder()
-                .append(NEW_LINE)
-                .append(NEW_LINE)
-                .append("\t").append(String.format("Connection ID: %s", connectionId))
-                .append(NEW_LINE)
-                .append("\t").append(String.format("Execution Time: %s ms", elapsed))
-                .append(NEW_LINE)
-                .append("\t").append(String.format("Call Stack (number 1 is entry point): %s", callStackBuilder))
-                .append(NEW_LINE)
-                .append("-------------------------------------------------------------------------")
-                .toString();
-    }
-
-    private StringBuilder getStackBuilder() {
-        Stack<String> callStack = new Stack<>();
-        stream(new Throwable().getStackTrace())
-                .map(StackTraceElement::toString)
-                .filter(isExcludeWords())
-                .forEach(callStack::push);
-
-        int order = 1;
-        StringBuilder callStackBuilder = new StringBuilder();
-        while (!callStack.empty()) {
-            callStackBuilder.append(MessageFormat.format("{0}\t\t{1}. {2}", NEW_LINE, order++, callStack.pop()));
-        }
-        return callStackBuilder;
-    }
-
-    private Predicate<String> isExcludeWords() {
-        return charSequence -> charSequence.startsWith(PACKAGE) && !charSequence.contains(P6SPY_FORMATTER);
+        return lowerSql.startsWith(CREATE)
+                || lowerSql.startsWith(ALTER)
+                || lowerSql.startsWith(DROP)
+                || lowerSql.startsWith(COMMENT);
     }
 }

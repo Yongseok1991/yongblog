@@ -1,13 +1,18 @@
 package my.yongblog.global.logformatter;
 
-import com.p6spy.engine.spy.P6SpyOptions;
-import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class P6SpyConfig {
-    @PostConstruct
-    public void setLogMessageFormat() {
-                P6SpyOptions.getActiveInstance().setLogMessageFormat(P6spyPrettySqlFormatter.class.getName());
+
+    @Bean
+    public P6SpyEventListener p6SpyCustomEventListener() {
+        return new P6SpyEventListener();
+    }
+
+    @Bean
+    public P6spyPrettySqlFormatter p6SpyCustomFormatter() {
+        return new P6spyPrettySqlFormatter();
     }
 }

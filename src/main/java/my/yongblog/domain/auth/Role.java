@@ -25,4 +25,10 @@ public class Role extends BaseEntity {
     private List<YongRoles> yongRoles = new ArrayList<>();
     private String desc;
     private Boolean enabled;
+
+    public Role(RoleType roleType, String desc, Boolean enabled) {
+        this.roleType = roleType;
+        this.desc = desc;
+        this.enabled = enabled;
+    }
 }

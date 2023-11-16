@@ -3,6 +3,7 @@ package my.yongblog.domain.auth;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.yongblog.domain.base.BaseEntity;
@@ -25,4 +26,9 @@ public class YongRoles extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "yong_id")
     private Yong yong;
+
+    public YongRoles(Role role, Yong yong) {
+        this.role = role;
+        this.yong = yong;
+    }
 }
