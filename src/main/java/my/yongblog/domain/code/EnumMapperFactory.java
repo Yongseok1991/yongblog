@@ -25,6 +25,4 @@ public class EnumMapperFactory {
                 .map(EnumMapperValue::new)
                 .toList();
     }
-
-
 }

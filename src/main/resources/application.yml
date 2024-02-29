@@ -21,11 +21,10 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:h2:tcp://localhost/~/h2-db/yongsblog
+    url: jdbc:h2:tcp://localhost/D:/h2-db/yongsblog
     username: sa
     password:
     driver-class-name: org.h2.Driver
-
 decorator:
   datasource:
     # p6spy 설정 적용

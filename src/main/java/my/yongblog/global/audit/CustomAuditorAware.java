@@ -21,7 +21,6 @@ public class CustomAuditorAware implements AuditorAware<Long> {
             return Optional.of(loginUser.getId());             // ofNullable : return null
         } else {
             throw new IllegalStateException("id is not found");
-            // TODO : redirect to login page.... (move Back/to login page)
         }
     }
 }

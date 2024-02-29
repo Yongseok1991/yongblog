@@ -24,14 +24,12 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
         return new CachedBodyServletInputStream(this.cachedBody);
     }
 
-    public ServletInputStream resetInputStream(byte[] data) {
-        return new CachedBodyServletInputStream(data);
+    public void resetInputStream(byte[] data) {
+        this.cachedBody = data;
     }
 
     @Override
     public BufferedReader getReader()  {
-        // Create a reader from cachedContent
-        // and return it
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.cachedBody);
         return new BufferedReader(new InputStreamReader(byteArrayInputStream));
     }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import my.yongblog.domain.auth.Role;
 import my.yongblog.domain.auth.YongRoles;
 import my.yongblog.domain.base.BaseTimeEntity;
+import my.yongblog.domain.leave.Leave;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,10 @@ public class Yong extends BaseTimeEntity {
     private String password;
     private String name;
     private Boolean isEnabled;
+    private String joinDate;
+    @OneToOne
+    @JoinColumn(name = "leave_id")
+    private Leave leave;
 
     @OneToMany(mappedBy = "yong", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
