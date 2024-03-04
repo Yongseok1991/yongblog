@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import my.yongblog.domain.base.BaseTimeEntity;
 import my.yongblog.domain.user.Yong;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "yong_post")
 @NoArgsConstructor

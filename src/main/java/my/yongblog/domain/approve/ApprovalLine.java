@@ -11,7 +11,6 @@ import my.yongblog.domain.user.Yong;
 @NoArgsConstructor
 @Table(name = "yong_approval_line")
 public class ApprovalLine extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "approval_line_id")

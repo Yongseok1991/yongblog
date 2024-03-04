@@ -13,7 +13,7 @@ import my.yongblog.domain.user.Yong;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class YongRoles extends BaseTimeEntity {
+public class YongRoles extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "yong_roles_id")
@@ -25,7 +25,7 @@ public class YongRoles extends BaseTimeEntity {
     private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "yong_id")
+    @JoinColumn(name = "user_id")
     private Yong yong;
 
     public YongRoles(Role role, Yong yong) {

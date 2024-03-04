@@ -6,11 +6,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.yongblog.domain.auth.Role;
+import my.yongblog.domain.base.BaseEntity;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class UserMenu {
+public class UserMenu extends BaseEntity {
     @Id @GeneratedValue
     @Column(name = "user_menu_id")
     private Long id;

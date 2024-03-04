@@ -12,10 +12,6 @@ public class CustomAuditorAware implements AuditorAware<Long> {
     @Override
     public Optional<Long> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        /*
-         *       TODO
-         *         regId, updtID가 ... 사용하는 곳만 바인딩하기 (보류)
-         */
         if (UserUtil.isAuthenticated(authentication)) {
             YongDetails loginUser = (YongDetails) authentication.getPrincipal();
             return Optional.of(loginUser.getId());             // ofNullable : return null
